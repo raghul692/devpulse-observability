@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: devpulse-observability
+    env: node
+    plan: starter
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DEVPULSE_API_KEY
+        generateValue: true
+      - key: RATE_LIMIT_MAX
+        value: 300

@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  devpulse-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devpulse-service
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DEVPULSE_API_KEY=devpulse-super-secret-key-2026
+      - RATE_LIMIT_MAX=200
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
